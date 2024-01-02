@@ -41,8 +41,8 @@ df = df.withColumn('year', year(df['Date']))
 # Filter out NULL values of 'year'
 df = df.filter(df['year'].isNotNull())
 # Calculate average distance per office and count the number of crimes
-result = df.groupBy(stations_df['DIVISION']).agg((round(avg('distance'), 3)).alias('average_distance'), count('*').alias('crime_count'))
+result = df.groupBy(stations_df['DIVISION']).agg((round(avg('distance'), 3)).alias('average_distance'), count('*').alias('#'))
 # Sort by number of incidents in descending order
-result = result.sort(desc('crime_count'))
+result = result.sort(desc('#'))
 
 result.show(1000)
