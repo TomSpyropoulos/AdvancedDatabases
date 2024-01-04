@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import year, avg, to_date, unix_timestamp, from_unixtime, count, round, udf, min
+from pyspark.sql.functions import year, avg, to_date, unix_timestamp, from_unixtime, count, round, udf, min, desc
 from pyspark.sql.types import FloatType, DoubleType
 from geopy.distance import geodesic
 
@@ -37,6 +37,9 @@ cross_df = cross_df.withColumn('distance', udf_calculate_distance(cross_df['LAT'
 nearest_df = cross_df.groupBy('DR_NO').agg(min('distance').alias('min_distance'))
 # Join the nearest police station back to the original dataframe
 df = crime_df.join(nearest_df, crime_df['DR_NO'] == nearest_df['DR_NO'])
+# Join crime data with police stations data
+df = df.join(stations_df, df['AREA '] == stations_df['PREC'])
+
 
 # Convert the 'DATE_OCC' column to a date type
 df = df.withColumn('Date', to_date(from_unixtime(unix_timestamp(df['Date Rptd'], 'dd/MM/yyyy hh:mm:ss a'))))
@@ -48,5 +51,13 @@ df = df.filter(df['year'].isNotNull())
 result = df.groupBy('year').agg(round(avg('min_distance'),3).alias('average_distance'), count('*').alias('#'))
 # Sort by year
 result = result.sort('year')
+
+result.show()
+
+# Calculate average distance per office and count the number of crimes
+result = df.groupBy(df['DIVISION']).agg((round(avg('min_distance'), 3)).alias('average_distance'), count('*').alias('#'))
+# Sort by number of incidents in descending order
+result = result.sort(desc('#'))
+
 
 result.show()

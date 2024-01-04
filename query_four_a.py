@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import year, avg, to_date, unix_timestamp, from_unixtime, count, round
+from pyspark.sql.functions import year, avg, to_date, unix_timestamp, from_unixtime, count, round, desc
 from pyspark.sql.types import FloatType
 from geopy.distance import geodesic
 
@@ -46,3 +46,9 @@ result = df.groupBy('year').agg(round(avg('distance'),3).alias('average_distance
 result = result.sort('year')
 
 result.show()
+# Calculate average distance per office and count the number of crimes
+result = df.groupBy(stations_df['DIVISION']).agg((round(avg('distance'), 3)).alias('average_distance'), count('*').alias('#'))
+# Sort by number of incidents in descending order
+result = result.sort(desc('#'))
+
+result.show(1000)
