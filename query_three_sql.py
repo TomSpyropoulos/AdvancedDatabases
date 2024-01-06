@@ -1,20 +1,16 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import to_date, year, when, desc, rank, col, unix_timestamp, from_unixtime
-from pyspark.sql.types import IntegerType, DoubleType
+import sys
 
-# Initialize a SparkSession
 spark = SparkSession.builder.appName('dataframe_query').getOrCreate()
-# Load the income data
-income_df = spark.read.csv('datasets/income/LA_income_2015.csv', inferSchema=True, header=True)
-# Load the crimes data
-df = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
-# Load the revgeocoding data
-revgeocoding_df = spark.read.csv('datasets/revgecoding.csv', inferSchema=True, header=True)
+
+incomes = spark.read.csv('datasets/income/LA_income_2015.csv', inferSchema=True, header=True)
+crimes = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
+revgecoding = spark.read.csv('datasets/revgecoding.csv', inferSchema=True, header=True)
 
 # Register the DataFrames as SQL temporary views
-df.createOrReplaceTempView("crimes")
-income_df.createOrReplaceTempView("income")
-revgeocoding_df.createOrReplaceTempView("revgeocoding")
+crimes.createOrReplaceTempView("crimes")
+incomes.createOrReplaceTempView("incomes")
+revgecoding.createOrReplaceTempView("revgeocoding")
 
 
 # Use SQL to perform the operations
@@ -23,7 +19,7 @@ df_grouped = spark.sql("""
         SELECT `ZIP Code` 
         FROM (
             SELECT `ZIP Code` 
-            FROM income 
+            FROM incomes 
             ORDER BY `Estimated Median Income` DESC 
             LIMIT 3
         )
@@ -31,7 +27,7 @@ df_grouped = spark.sql("""
         SELECT `ZIP Code` 
         FROM (
             SELECT `ZIP Code` 
-            FROM income 
+            FROM incomes 
             ORDER BY `Estimated Median Income` ASC 
             LIMIT 3
         )
@@ -61,8 +57,7 @@ df_grouped = spark.sql("""
     ORDER BY count DESC
 """)
 
-# Show the results
-df_grouped.show()
+with open('./outputs/query_three_sql.txt', 'w') as sys.stdout:
+    df_grouped.show()
 
-# Stop the SparkSession
 spark.stop()

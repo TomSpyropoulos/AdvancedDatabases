@@ -2,30 +2,21 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import to_date, col
 from pyspark.sql.types import IntegerType, DoubleType
 
-# Initialize a SparkSession
 spark = SparkSession.builder.appName('dataframe_query').getOrCreate()
 
-# Load the CSV file
-df = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
-
-# Load the second CSV file
-df2 = spark.read.csv('datasets/Crime_Data_from_2020_to_Present.csv', inferSchema=True, header=True)
-
-# Merge the two DataFrames
-df = df.union(df2)
+# Merge CSV files to create whole dataset
+crimes = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
+temp = spark.read.csv('datasets/Crime_Data_from_2020_to_Present.csv', inferSchema=True, header=True)
+crimes = crimes.union(temp)
 
 # Adjust the data types
-df = df.withColumn("Date Rptd", to_date(col("Date Rptd"), 'MM/dd/yyyy'))
-df = df.withColumn("DATE OCC", to_date(col("DATE OCC"), 'MM/dd/yyyy'))
-df = df.withColumn("Vict Age", df["Vict Age"].cast(IntegerType()))
-df = df.withColumn("LAT", df["LAT"].cast(DoubleType()))
-df = df.withColumn("LON", df["LON"].cast(DoubleType()))
+crimes = crimes.withColumn("Date Rptd", to_date(col("Date Rptd"), 'MM/dd/yyyy'))
+crimes = crimes.withColumn("DATE OCC", to_date(col("DATE OCC"), 'MM/dd/yyyy'))
+crimes = crimes.withColumn("Vict Age", crimes["Vict Age"].cast(IntegerType()))
+crimes = crimes.withColumn("LAT", crimes["LAT"].cast(DoubleType()))
+crimes = crimes.withColumn("LON", crimes["LON"].cast(DoubleType()))
 
-# Print the total number of rows
-print("Total number of rows: ", df.count())
+print("Total number of rows: ", crimes.count())
+crimes.printSchema()
 
-# Print the schema
-df.printSchema()
-
-# stop spark session
 spark.stop()

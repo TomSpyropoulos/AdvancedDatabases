@@ -1,0 +1,26 @@
++----------------+----------------+----+
+|        DIVISION|average_distance|   #|
++----------------+----------------+----+
+|     77TH STREET|           2.701|5993|
+|       SOUTHEAST|           2.106|4776|
+|          NEWTON|           2.016|3431|
+|       SOUTHWEST|           2.692|3163|
+|      HOLLENBECK|           2.632|2350|
+|          HARBOR|           4.133|1904|
+|         RAMPART|           1.572|1796|
+|         MISSION|           4.708|1657|
+|         OLYMPIC|           1.789|1587|
+|        FOOTHILL|           3.838|1396|
+|       NORTHEAST|           3.841|1351|
+|       HOLLYWOOD|           1.411|1288|
+|         CENTRAL|           1.128|1256|
+| NORTH HOLLYWOOD|           2.771|1228|
+|        WILSHIRE|            2.33|1225|
+|        VAN NUYS|           2.258| 983|
+|     WEST VALLEY|           3.443| 970|
+|      DEVONSHIRE|           3.971| 964|
+|         PACIFIC|           3.728| 948|
+|         TOPANGA|           3.499| 837|
+|WEST LOS ANGELES|           4.269| 534|
++----------------+----------------+----+
+
