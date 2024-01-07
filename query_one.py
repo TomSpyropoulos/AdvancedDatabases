@@ -1,10 +1,14 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import to_date, year, month, desc, rank, col, unix_timestamp, from_unixtime
 from pyspark.sql.window import Window
-import sys
+import sys, time
 
-spark = SparkSession.builder.appName('csv_query').getOrCreate()
+spark = SparkSession.builder\
+            .appName('dataframe_query')\
+            .config('spark.executor.instances', '4')\
+            .getOrCreate()
 
+start_time = time.time()
 # Merge CSV files to create whole dataset, adjust types
 crimes = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
 temp = spark.read.csv('datasets/Crime_Data_from_2020_to_Present.csv', inferSchema=True, header=True)
@@ -22,5 +26,7 @@ top_months = top_months.filter(col('year').isNotNull())
 
 with open('./outputs/query_one.txt', 'w') as sys.stdout:
     top_months.show(50)
+    end_time = time.time()
+    print(f"Execution time with 4 executor(s): {format(end_time - start_time, '.2f')} seconds")
 
 spark.stop()

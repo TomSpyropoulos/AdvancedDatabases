@@ -1,5 +1,5 @@
 +--------------------+-----+
-|    New Vict Descent|count|
+|        Vict Descent|count|
 +--------------------+-----+
 |               White|  346|
 |             Unknown|  167|
@@ -7,3 +7,4 @@
 |               Black|   36|
 +--------------------+-----+
 
+Execution time with 4 executor(s): 30.04 seconds

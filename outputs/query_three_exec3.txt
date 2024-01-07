@@ -1,0 +1,10 @@
++--------------------+-----+
+|        Vict Descent|count|
++--------------------+-----+
+|               White|  346|
+|             Unknown|  167|
+|Hispanic/Latin/Me...|   79|
+|               Black|   36|
++--------------------+-----+
+
+Execution time with 3 executor(s): 29.19 seconds

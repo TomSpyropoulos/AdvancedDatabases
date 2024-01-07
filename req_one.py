@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import to_date, col
 from pyspark.sql.types import IntegerType, DoubleType
+import sys
 
 spark = SparkSession.builder.appName('dataframe_query').getOrCreate()
 
@@ -16,7 +17,8 @@ crimes = crimes.withColumn("Vict Age", crimes["Vict Age"].cast(IntegerType()))
 crimes = crimes.withColumn("LAT", crimes["LAT"].cast(DoubleType()))
 crimes = crimes.withColumn("LON", crimes["LON"].cast(DoubleType()))
 
-print("Total number of rows: ", crimes.count())
-crimes.printSchema()
+with open('./outputs/req_one.txt', 'w') as sys.stdout:
+    print("Total number of rows: ", crimes.count())
+    crimes.printSchema()
 
 spark.stop()

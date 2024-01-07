@@ -1,9 +1,13 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, hour, when, to_timestamp
-import sys
+import sys, time
 
-spark = SparkSession.builder.appName('dataframe_query').getOrCreate()
+spark = SparkSession.builder\
+            .appName('dataframe_query')\
+            .config('spark.executor.instances', '4')\
+            .getOrCreate()
 
+start_time = time.time()
 # Merge CSV files to create whole dataset, adjust types
 crimes = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
 temp = spark.read.csv('datasets/Crime_Data_from_2020_to_Present.csv', inferSchema=True, header=True)
@@ -25,5 +29,7 @@ result = street_crimes.groupBy("part_of_day").count().orderBy(col("count").desc(
 
 with open('./outputs/query_two.txt', 'w') as sys.stdout:
     result.show()
+    end_time = time.time()
+    print(f"Execution time with 4 executor(s): {format(end_time - start_time, '.2f')} seconds")
 
 spark.stop()
