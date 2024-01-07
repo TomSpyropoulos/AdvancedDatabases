@@ -45,4 +45,4 @@ for executors_num in [2,3,4]:
         end_time = time.time()
         print(f"Execution time with {executors_num} executor(s): {format(end_time - start_time, '.2f')} seconds")
 
-    spark.stop()
+spark.stop()
