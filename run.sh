@@ -1,5 +1,5 @@
 #!/bin/bash
-
+mkdir outputs
 start-all.sh
 hdfs dfsadmin -safemode leave
 virtualenv venv
