@@ -7,10 +7,10 @@ import sys
 spark = SparkSession.builder.getOrCreate()
 
 # Merge CSV files to create whole dataset, adjust types, filter
-stations = spark.read.csv('datasets/LAPD_Police_Stations.csv', header=True, inferSchema=True)
+stations = spark.read.csv('/datasets/LAPD_Police_Stations.csv', header=True, inferSchema=True)
 
-crimes = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
-temp = spark.read.csv('datasets/Crime_Data_from_2020_to_Present.csv', inferSchema=True, header=True)
+crimes = spark.read.csv('/datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
+temp = spark.read.csv('/datasets/Crime_Data_from_2020_to_Present.csv', inferSchema=True, header=True)
 crimes = crimes.union(temp)
 crimes = crimes.withColumn('Date', to_date(from_unixtime(unix_timestamp(crimes['Date Rptd'], 'M/d/yyyy hh:mm:ss a'))))
 crimes = crimes.withColumn('year', year(crimes['Date']))

@@ -1,0 +1,16 @@
+== Physical Plan ==
+CartesianProduct (cast(ZIPcode#42 as int) = ZIP Code#17)
+:- CartesianProduct ((knownfloatingpointnormalized(normalizenanandzero(LAT#89)) = knownfloatingpointnormalized(normalizenanandzero(LAT#40))) AND (knownfloatingpointnormalized(normalizenanandzero(LON#90)) = knownfloatingpointnormalized(normalizenanandzero(LON#41))))
+:  :- *(1) Filter (isnotnull(LAT#89) AND isnotnull(LON#90))
+:  :  +- FileScan csv [DR_NO#63,Date Rptd#64,DATE OCC#65,TIME OCC#66,AREA #67,AREA NAME#68,Rpt Dist No#69,Part 1-2#70,Crm Cd#71,Crm Cd Desc#72,Mocodes#73,Vict Age#74,Vict Sex#75,Vict Descent#76,Premis Cd#77,Premis Desc#78,Weapon Used Cd#79,Weapon Desc#80,Status#81,Status Desc#82,Crm Cd 1#83,Crm Cd 2#84,Crm Cd 3#85,Crm Cd 4#86,... 4 more fields] Batched: false, DataFilters: [isnotnull(LAT#89), isnotnull(LON#90)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/Crime_Data_from_2010_to_2019.csv], PartitionFilters: [], PushedFilters: [IsNotNull(LAT), IsNotNull(LON)], ReadSchema: struct<DR_NO:int,Date Rptd:string,DATE OCC:string,TIME OCC:int,AREA :int,AREA NAME:string,Rpt Dis...
+:  +- *(2) Filter ((isnotnull(LAT#40) AND isnotnull(LON#41)) AND isnotnull(ZIPcode#42))
+:     +- FileScan csv [LAT#40,LON#41,ZIPcode#42] Batched: false, DataFilters: [isnotnull(LAT#40), isnotnull(LON#41), isnotnull(ZIPcode#42)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/revgecoding.csv], PartitionFilters: [], PushedFilters: [IsNotNull(LAT), IsNotNull(LON), IsNotNull(ZIPcode)], ReadSchema: struct<LAT:double,LON:double,ZIPcode:string>
++- Union
+   :- *(3) Filter isnotnull(ZIP Code#17)
+   :  +- TakeOrderedAndProject(limit=3, orderBy=[Estimated Median Income#19 DESC NULLS LAST], output=[ZIP Code#17])
+   :     +- FileScan csv [Zip Code#17,Estimated Median Income#19] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/income/LA_income_2015.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+   +- *(4) Filter isnotnull(ZIP Code#585)
+      +- TakeOrderedAndProject(limit=3, orderBy=[Estimated Median Income#587 ASC NULLS FIRST], output=[ZIP Code#585])
+         +- FileScan csv [Zip Code#585,Estimated Median Income#587] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/income/LA_income_2015.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+
+

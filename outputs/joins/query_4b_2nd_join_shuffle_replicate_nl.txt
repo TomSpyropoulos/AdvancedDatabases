@@ -1,0 +1,26 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- CartesianProduct (AREA #50 = PREC#1365)
+   :- CartesianProduct (DR_NO#46 = DR_NO#1241)
+   :  :- Union
+   :  :  :- Filter (isnotnull(DR_NO#46) AND isnotnull(AREA #50))
+   :  :  :  +- FileScan csv [DR_NO#46,Date Rptd#47,DATE OCC#48,TIME OCC#49,AREA #50,AREA NAME#51,Rpt Dist No#52,Part 1-2#53,Crm Cd#54,Crm Cd Desc#55,Mocodes#56,Vict Age#57,Vict Sex#58,Vict Descent#59,Premis Cd#60,Premis Desc#61,Weapon Used Cd#62,Weapon Desc#63,Status#64,Status Desc#65,Crm Cd 1#66,Crm Cd 2#67,Crm Cd 3#68,Crm Cd 4#69,... 4 more fields] Batched: false, DataFilters: [isnotnull(DR_NO#46), isnotnull(AREA #50)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/Crime_Data_from_2010_to_2019.csv], PartitionFilters: [], PushedFilters: [IsNotNull(DR_NO), IsNotNull(AREA )], ReadSchema: struct<DR_NO:int,Date Rptd:string,DATE OCC:string,TIME OCC:int,AREA :int,AREA NAME:string,Rpt Dis...
+   :  :  +- Filter (isnotnull(DR_NO#119) AND isnotnull(AREA#123))
+   :  :     +- FileScan csv [DR_NO#119,Date Rptd#120,DATE OCC#121,TIME OCC#122,AREA#123,AREA NAME#124,Rpt Dist No#125,Part 1-2#126,Crm Cd#127,Crm Cd Desc#128,Mocodes#129,Vict Age#130,Vict Sex#131,Vict Descent#132,Premis Cd#133,Premis Desc#134,Weapon Used Cd#135,Weapon Desc#136,Status#137,Status Desc#138,Crm Cd 1#139,Crm Cd 2#140,Crm Cd 3#141,Crm Cd 4#142,... 4 more fields] Batched: false, DataFilters: [isnotnull(DR_NO#119), isnotnull(AREA#123)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/Crime_Data_from_2020_to_Present.csv], PartitionFilters: [], PushedFilters: [IsNotNull(DR_NO), IsNotNull(AREA)], ReadSchema: struct<DR_NO:int,Date Rptd:string,DATE OCC:string,TIME OCC:int,AREA:int,AREA NAME:string,Rpt Dist...
+   :  +- HashAggregate(keys=[DR_NO#1241], functions=[min(distance#1166)])
+   :     +- Exchange hashpartitioning(DR_NO#1241, 200), ENSURE_REQUIREMENTS, [plan_id=813]
+   :        +- HashAggregate(keys=[DR_NO#1241], functions=[partial_min(distance#1166)])
+   :           +- Project [DR_NO#1241, pythonUDF0#1439 AS distance#1166]
+   :              +- BatchEvalPython [calculate_distance(LAT#1267, LON#1268, Y#18, X#17)#1165], [pythonUDF0#1439]
+   :                 +- BroadcastNestedLoopJoin BuildRight, Cross
+   :                    :- Union
+   :                    :  :- Filter isnotnull(DR_NO#1241)
+   :                    :  :  +- FileScan csv [DR_NO#1241,LAT#1267,LON#1268] Batched: false, DataFilters: [isnotnull(DR_NO#1241)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/Crime_Data_from_2010_to_2019.csv], PartitionFilters: [], PushedFilters: [IsNotNull(DR_NO)], ReadSchema: struct<DR_NO:int,LAT:double,LON:double>
+   :                    :  +- Filter isnotnull(DR_NO#1269)
+   :                    :     +- FileScan csv [DR_NO#1269,LAT#1295,LON#1296] Batched: false, DataFilters: [isnotnull(DR_NO#1269)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/Crime_Data_from_2020_to_Present.csv], PartitionFilters: [], PushedFilters: [IsNotNull(DR_NO)], ReadSchema: struct<DR_NO:int,LAT:double,LON:double>
+   :                    +- BroadcastExchange IdentityBroadcastMode, [plan_id=807]
+   :                       +- FileScan csv [X#17,Y#18] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/LAPD_Police_Stations.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<X:double,Y:double>
+   +- Filter isnotnull(PREC#1365)
+      +- FileScan csv [X#1360,Y#1361,FID#1362,DIVISION#1363,LOCATION#1364,PREC#1365] Batched: false, DataFilters: [isnotnull(PREC#1365)], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/LAPD_Police_Stations.csv], PartitionFilters: [], PushedFilters: [IsNotNull(PREC)], ReadSchema: struct<X:double,Y:double,FID:int,DIVISION:string,LOCATION:string,PREC:int>
+
+

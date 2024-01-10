@@ -9,8 +9,8 @@ spark = SparkSession.builder\
 
 start_time = time.time()
 # Merge CSV files to create whole dataset, adjust types
-crimes = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
-temp = spark.read.csv('datasets/Crime_Data_from_2020_to_Present.csv', inferSchema=True, header=True)
+crimes = spark.read.csv('/datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
+temp = spark.read.csv('/datasets/Crime_Data_from_2020_to_Present.csv', inferSchema=True, header=True)
 crimes = crimes.union(temp)
 crimes = crimes.withColumn("Hour", (col("TIME OCC") / 100).cast('integer'))
 

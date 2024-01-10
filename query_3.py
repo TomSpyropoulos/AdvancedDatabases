@@ -11,12 +11,12 @@ for executors_num in [2,3,4]:
 
     start_time = time.time()
     # Load datasets, adjust types, filter for null
-    incomes = spark.read.csv('datasets/income/LA_income_2015.csv', inferSchema=True, header=True)
+    incomes = spark.read.csv('/datasets/income/LA_income_2015.csv', inferSchema=True, header=True)
 
-    revgecoding = spark.read.csv('datasets/revgecoding.csv', inferSchema=True, header=True)
+    revgecoding = spark.read.csv('/datasets/revgecoding.csv', inferSchema=True, header=True)
     revgecoding = revgecoding.dropDuplicates(['LAT', 'LON'])
 
-    crimes = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
+    crimes = spark.read.csv('/datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
     crimes = crimes.withColumn('Date', to_date(from_unixtime(unix_timestamp(crimes['DATE OCC'], 'M/d/yyyy hh:mm:ss a'))))
     crimes = crimes.withColumn('year', year(crimes['Date']))
     crimes = crimes.filter(crimes['Vict Descent'].isNotNull())
