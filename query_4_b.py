@@ -34,13 +34,13 @@ crimes = crimes.join(stations, crimes['AREA '] == stations['PREC'])
 # Query a
 result = crimes.groupBy('year').agg(round(avg('min_distance'),3).alias('average_distance'), count('*').alias('#'))
 result = result.sort('year')
-with open('./outputs/query_four_ba.txt', 'w') as sys.stdout:
+with open('./outputs/query_4_ba.txt', 'w') as sys.stdout:
     result.show()
 
 # Query b
 result = crimes.groupBy(crimes['DIVISION']).agg((round(avg('min_distance'), 3)).alias('average_distance'), count('*').alias('#'))
 result = result.sort(desc('#'))
-with open('./outputs/query_four_bb.txt', 'w') as sys.stdout:
+with open('./outputs/query_4_bb.txt', 'w') as sys.stdout:
     result.show(21)
 
 spark.stop()

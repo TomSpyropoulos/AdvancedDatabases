@@ -31,7 +31,7 @@ result_rdd = filtered_rdd.reduceByKey(lambda a, b: a + b)
 sorted_rdd = result_rdd.sortBy(lambda x: x[1], ascending=False)
 result = sorted_rdd.collect()
 
-with open('./outputs/query_two_rdd.txt', 'w') as sys.stdout:
+with open('./outputs/query_2_rdd.txt', 'w') as sys.stdout:
     for part_of_day, count in result:
         print(f'{part_of_day}: {count}')
     end_time = time.time()

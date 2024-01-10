@@ -17,7 +17,7 @@ crimes = crimes.withColumn("Vict Age", crimes["Vict Age"].cast(IntegerType()))
 crimes = crimes.withColumn("LAT", crimes["LAT"].cast(DoubleType()))
 crimes = crimes.withColumn("LON", crimes["LON"].cast(DoubleType()))
 
-with open('./outputs/req_one.txt', 'w') as sys.stdout:
+with open('./outputs/req_1.txt', 'w') as sys.stdout:
     print("Total number of rows: ", crimes.count())
     crimes.printSchema()
 

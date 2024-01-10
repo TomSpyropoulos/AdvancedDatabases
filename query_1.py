@@ -24,7 +24,7 @@ top_months = crimes_grouped.withColumn('#', rank().over(window)).filter(col('#')
 top_months = top_months.orderBy('year', desc('crime_total'))
 top_months = top_months.filter(col('year').isNotNull())
 
-with open('./outputs/query_one.txt', 'w') as sys.stdout:
+with open('./outputs/query_1.txt', 'w') as sys.stdout:
     top_months.show(50)
     end_time = time.time()
     print(f"Execution time with 4 executor(s): {format(end_time - start_time, '.2f')} seconds")

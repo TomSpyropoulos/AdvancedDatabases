@@ -40,7 +40,7 @@ for executors_num in [2,3,4]:
     crimes_by_desc = crimes_2015.groupBy('Vict Descent').count()
     crimes_by_desc = crimes_by_desc.orderBy(desc('count'))
 
-    with open(f'./outputs/query_three_exec{executors_num}.txt', 'w') as sys.stdout:
+    with open(f'./outputs/query_3_exec{executors_num}.txt', 'w') as sys.stdout:
         crimes_by_desc.show()
         end_time = time.time()
         print(f"Execution time with {executors_num} executor(s): {format(end_time - start_time, '.2f')} seconds")

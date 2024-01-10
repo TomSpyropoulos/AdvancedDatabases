@@ -30,13 +30,13 @@ calculate_distance_udf = spark.udf.register('calculate_distance', calculate_dist
 crimes = crimes.withColumn('distance', calculate_distance_udf(crimes['LAT'], crimes['LON'], crimes['Y'], crimes['X']))
 result = crimes.groupBy('year').agg(round(avg('distance'),3).alias('average_distance'), count('*').alias('#'))
 result = result.sort('year')
-with open('./outputs/query_four_aa.txt', 'w') as sys.stdout:
+with open('./outputs/query_4_aa.txt', 'w') as sys.stdout:
     result.show()
 
 # Query b
 result = crimes.groupBy(stations['DIVISION']).agg((round(avg('distance'), 3)).alias('average_distance'), count('*').alias('#'))
 result = result.sort(desc('#'))
-with open('./outputs/query_four_ab.txt', 'w') as sys.stdout:
+with open('./outputs/query_4_ab.txt', 'w') as sys.stdout:
     result.show(1000)
 
 spark.stop()

@@ -26,7 +26,7 @@ crimes = crimes.withColumn(
 street_crimes = crimes.filter(crimes["Premis Desc"] == "STREET")
 result = street_crimes.groupBy("part_of_day").count().orderBy(col("count").desc())
 
-with open('./outputs/query_two.txt', 'w') as sys.stdout:
+with open('./outputs/query_2.txt', 'w') as sys.stdout:
     result.show()
     end_time = time.time()
     print(f"Execution time with 4 executor(s): {format(end_time - start_time, '.2f')} seconds")

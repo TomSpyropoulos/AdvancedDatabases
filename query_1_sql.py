@@ -38,7 +38,7 @@ result = spark.sql("""
     ORDER BY 
         year ASC, crime_total DESC
 """)
-with open('./outputs/query_one_sql.txt', 'w') as sys.stdout:
+with open('./outputs/query_1_sql.txt', 'w') as sys.stdout:
     result.show(50)
     end_time = time.time()
     print(f"Execution time with 4 executor(s): {format(end_time - start_time, '.2f')} seconds")
