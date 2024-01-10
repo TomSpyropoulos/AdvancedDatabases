@@ -17,7 +17,7 @@ for executors_num in [2,3,4]:
     revgecoding = revgecoding.dropDuplicates(['LAT', 'LON'])
 
     crimes = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
-    crimes = crimes.withColumn('Date', to_date(from_unixtime(unix_timestamp(crimes['DATE OCC'], 'dd/MM/yyyy hh:mm:ss a'))))
+    crimes = crimes.withColumn('Date', to_date(from_unixtime(unix_timestamp(crimes['DATE OCC'], 'M/d/yyyy hh:mm:ss a'))))
     crimes = crimes.withColumn('year', year(crimes['Date']))
     crimes = crimes.filter(crimes['Vict Descent'].isNotNull())
 

@@ -12,7 +12,7 @@ stations = spark.read.csv('datasets/LAPD_Police_Stations.csv', header=True, infe
 crimes = spark.read.csv('datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
 temp = spark.read.csv('datasets/Crime_Data_from_2020_to_Present.csv', inferSchema=True, header=True)
 crimes = crimes.union(temp)
-crimes = crimes.withColumn('Date', to_date(from_unixtime(unix_timestamp(crimes['Date Rptd'], 'dd/MM/yyyy hh:mm:ss a'))))
+crimes = crimes.withColumn('Date', to_date(from_unixtime(unix_timestamp(crimes['Date Rptd'], 'M/d/yyyy hh:mm:ss a'))))
 crimes = crimes.withColumn('year', year(crimes['Date']))
 crimes = crimes.filter(crimes['year'].isNotNull())
 crimes = crimes.filter((crimes['LAT'] != 0) & (crimes['LON'] != 0))
@@ -38,3 +38,5 @@ result = crimes.groupBy(stations['DIVISION']).agg((round(avg('distance'), 3)).al
 result = result.sort(desc('#'))
 with open('./outputs/query_four_ab.txt', 'w') as sys.stdout:
     result.show(1000)
+
+spark.stop()

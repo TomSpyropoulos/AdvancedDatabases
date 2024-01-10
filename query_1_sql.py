@@ -21,15 +21,15 @@ result = spark.sql("""
         crime_total
     FROM (
         SELECT 
-            YEAR(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP(`DATE OCC`, 'dd/MM/yyyy hh:mm:ss a')))) AS year,
-            MONTH(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP(`DATE OCC`, 'dd/MM/yyyy hh:mm:ss a')))) AS month,
+            YEAR(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP(`DATE OCC`, 'M/d/yyyy hh:mm:ss a')))) AS year,
+            MONTH(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP(`DATE OCC`, 'M/d/yyyy hh:mm:ss a')))) AS month,
             COUNT(*) as crime_total,
-            ROW_NUMBER() OVER (PARTITION BY YEAR(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP(`DATE OCC`, 'dd/MM/yyyy hh:mm:ss a')))) ORDER BY COUNT(*) DESC) as row_number
+            ROW_NUMBER() OVER (PARTITION BY YEAR(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP(`DATE OCC`, 'M/d/yyyy hh:mm:ss a')))) ORDER BY COUNT(*) DESC) as row_number
         FROM 
             crimes
         WHERE 
-            YEAR(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP(`DATE OCC`, 'dd/MM/yyyy hh:mm:ss a')))) IS NOT NULL AND
-            MONTH(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP(`DATE OCC`, 'dd/MM/yyyy hh:mm:ss a')))) IS NOT NULL
+            YEAR(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP(`DATE OCC`, 'M/d/yyyy hh:mm:ss a')))) IS NOT NULL AND
+            MONTH(TO_DATE(FROM_UNIXTIME(UNIX_TIMESTAMP(`DATE OCC`, 'M/d/yyyy hh:mm:ss a')))) IS NOT NULL
         GROUP BY 
             year, month
     ) tmp

@@ -1,2 +1,0 @@
-Νύχτα: 641454
-Execution time with 4 executor(s): 54.78 seconds

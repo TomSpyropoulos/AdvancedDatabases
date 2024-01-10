@@ -1,7 +1,0 @@
-+-----------+------+
-|part_of_day| count|
-+-----------+------+
-|      Νύχτα|641454|
-+-----------+------+
-
-Execution time with 4 executor(s): 23.29 seconds
