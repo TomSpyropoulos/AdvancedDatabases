@@ -6,7 +6,6 @@ source venv/bin/activate
 pip install -r requirements.txt
 venv-pack -o venv.tar.gz
 export PYSPARK_PYTHON=./venv/bin/python
-mkdir outputs outputs/joins
 spark-submit --archives venv.tar.gz#venv req_1.py
 spark-submit --archives venv.tar.gz#venv query_1.py
 spark-submit --archives venv.tar.gz#venv query_1_sql.py
