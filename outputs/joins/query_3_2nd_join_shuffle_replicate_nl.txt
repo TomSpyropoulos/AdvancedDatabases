@@ -9,8 +9,8 @@ CartesianProduct (cast(ZIPcode#42 as int) = ZIP Code#17)
    :- *(3) Filter isnotnull(ZIP Code#17)
    :  +- TakeOrderedAndProject(limit=3, orderBy=[Estimated Median Income#19 DESC NULLS LAST], output=[ZIP Code#17])
    :     +- FileScan csv [Zip Code#17,Estimated Median Income#19] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/income/LA_income_2015.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
-   +- *(4) Filter isnotnull(ZIP Code#585)
-      +- TakeOrderedAndProject(limit=3, orderBy=[Estimated Median Income#587 ASC NULLS FIRST], output=[ZIP Code#585])
-         +- FileScan csv [Zip Code#585,Estimated Median Income#587] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/income/LA_income_2015.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
+   +- *(4) Filter isnotnull(ZIP Code#342)
+      +- TakeOrderedAndProject(limit=3, orderBy=[Estimated Median Income#344 ASC NULLS FIRST], output=[ZIP Code#342])
+         +- FileScan csv [Zip Code#342,Estimated Median Income#344] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex(1 paths)[hdfs://vm-master:54310/datasets/income/LA_income_2015.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<Zip Code:int,Estimated Median Income:string>
 
 

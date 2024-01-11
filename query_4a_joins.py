@@ -3,7 +3,7 @@ import sys
 
 method = sys.argv[1]
 spark = SparkSession.builder\
-            .appName(f"query_3_{method}_join")\
+            .appName(f"query_4a_{method}_join")\
             .getOrCreate()
 
 # Merge CSV files to create whole dataset, adjust types, filter
@@ -16,7 +16,7 @@ crimes = crimes.union(temp)
 
 crimes_joined = crimes.join(stations.hint(method), crimes['AREA '] == stations['PREC'])
 
-with open(f'./outputs/joins/query_4a_1st_join_{method}.txt', 'w') as f:
+with open(f'./outputs/joins/query_4a_{method}.txt', 'w') as f:
     old_stdout = sys.stdout
     sys.stdout = f
     

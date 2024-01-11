@@ -6,7 +6,7 @@ import sys
 
 method = sys.argv[1]
 spark = SparkSession.builder\
-            .appName(f"query_3_{method}_join")\
+            .appName(f"query_4b_{method}_join")\
             .getOrCreate()
 
 # Load datasets

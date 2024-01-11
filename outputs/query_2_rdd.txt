@@ -2,4 +2,4 @@
 Βράδυ: 172354
 Απόγευμα: 136349
 Πρωί: 113661
-Execution time with 4 executor(s): 43.06 seconds
+Execution time with 4 executor(s): 45.41 seconds
