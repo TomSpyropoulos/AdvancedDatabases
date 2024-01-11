@@ -3,7 +3,7 @@ from pyspark.sql.functions import to_date, col
 from pyspark.sql.types import IntegerType, DoubleType
 import sys
 
-spark = SparkSession.builder.appName('dataframe_query').getOrCreate()
+spark = SparkSession.builder.getOrCreate()
 
 # Merge CSV files to create whole dataset
 crimes = spark.read.csv('/datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)

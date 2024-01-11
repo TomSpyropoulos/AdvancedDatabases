@@ -2,7 +2,6 @@ from pyspark.sql import SparkSession
 import sys, time
 
 spark = SparkSession.builder\
-            .appName('dataframe_query')\
             .config('spark.executor.instances', '4')\
             .getOrCreate()
 

@@ -17,3 +17,4 @@ for method in join_methods:
 
     with open(f'./outputs/joins/query_4a_{method}.txt', 'w') as sys.stdout:
         crimes_joined.explain()
+    crimes_joined.show()

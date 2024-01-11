@@ -25,5 +25,6 @@ for method in join_methods:
 
     with open(f'./outputs/joins/query_3_2nd_join_{method}.txt', 'w') as sys.stdout:
         crimes_joined.explain()
+    crimes_joined.show()
 
 spark.stop()

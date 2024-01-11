@@ -3,7 +3,6 @@ from pyspark.sql.functions import col, hour, when, to_timestamp
 import sys, time
 
 spark = SparkSession.builder\
-            .appName('dataframe_query')\
             .config('spark.executor.instances', '4')\
             .getOrCreate()
 

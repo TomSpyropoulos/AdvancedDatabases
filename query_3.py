@@ -5,7 +5,6 @@ import sys, time
 for executors_num in [2,3,4]:
 
     spark = SparkSession.builder\
-                .appName('dataframe_query')\
                 .config('spark.executor.instances', str(executors_num))\
                 .getOrCreate()
 

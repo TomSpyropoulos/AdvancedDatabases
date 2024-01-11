@@ -42,4 +42,4 @@
 |2023|    1|      19613|
 +----+-----+-----------+
 
-Execution time with 4 executor(s): 29.11 seconds
+Execution time with 4 executor(s): 31.59 seconds
