@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import desc
 import sys
 
-spark = SparkSession.builder.appName('dataframe_query').getOrCreate()
+spark = SparkSession.builder.getOrCreate()
 
 # Load datasets
 incomes = spark.read.csv('/datasets/income/LA_income_2015.csv', inferSchema=True, header=True)

@@ -1,5 +1,6 @@
 #!/bin/bash
-start-all.sh
+start-dfs.sh
+start-yarn.sh
 $SPARK_HOME/sbin/start-history-server.sh
 hdfs dfsadmin -safemode leave
 virtualenv venv
@@ -19,6 +20,8 @@ spark-submit --archives venv.tar.gz#venv query_4a_joins.py
 spark-submit --archives venv.tar.gz#venv query_4b.py
 spark-submit --archives venv.tar.gz#venv query_4b_joins.py
 deactivate
-stop-all.sh
+stop-dfs.sh
+stop-yarn.sh
+$SPARK_HOME/sbin/stop-history-server.sh
 rm -rf venv
 rm venv.tar.gz
