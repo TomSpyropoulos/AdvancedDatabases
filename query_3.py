@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import to_date, year, when, desc, col, unix_timestamp, from_unixtime
+from pyspark.sql.functions import to_date, year, when, desc, col, unix_timestamp, from_unixtime, asc
 import sys, time
+from pyspark.sql.functions import regexp_replace
 
 for executors_num in [2,3,4]:
 
@@ -11,9 +12,10 @@ for executors_num in [2,3,4]:
     start_time = time.time()
     # Load datasets, adjust types, filter for null
     incomes = spark.read.csv('/datasets/income/LA_income_2015.csv', inferSchema=True, header=True)
+    incomes = incomes.withColumn("Estimated Median Income", regexp_replace(col("Estimated Median Income"), '[$,]', ''))
+    incomes = incomes.withColumn("Estimated Median Income", col("Estimated Median Income").cast("int"))
 
     revgecoding = spark.read.csv('/datasets/revgecoding.csv', inferSchema=True, header=True)
-    revgecoding = revgecoding.dropDuplicates(['LAT', 'LON'])
 
     crimes = spark.read.csv('/datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
     crimes = crimes.withColumn('Date', to_date(from_unixtime(unix_timestamp(crimes['DATE OCC'], 'M/d/yyyy hh:mm:ss a'))))
@@ -22,16 +24,16 @@ for executors_num in [2,3,4]:
 
     # Adjust values for output
     crimes = crimes.withColumn('Vict Descent', 
-                                    when(col('Vict Descent') == 'B', 'Black')
-                                    .when(col('Vict Descent') == 'W', 'White')
-                                    .when(col('Vict Descent').isin(['H', 'L', 'M']), 'Hispanic/Latin/Mexican')
-                                    .otherwise('Unknown'))
+                                when(col('Vict Descent') == 'B', 'Black')
+                                .when(col('Vict Descent') == 'W', 'White')
+                                .when(col('Vict Descent').isin(['H', 'L', 'M']), 'Hispanic/Latin/Mexican')
+                                .otherwise('Unknown'))
 
     # Query
     crimes = crimes.join(revgecoding, (crimes['LAT'] == revgecoding['LAT']) & (crimes['LON'] == revgecoding['LON']))
 
     top_zip = incomes.orderBy(desc('Estimated Median Income')).select('ZIP Code').limit(3)
-    bottom_zip = incomes.orderBy('Estimated Median Income').select('ZIP Code').limit(3)
+    bottom_zip = incomes.orderBy(asc('Estimated Median Income')).select('ZIP Code').limit(3)
     zip_codes_df = top_zip.union(bottom_zip)
 
     crimes = crimes.join(zip_codes_df, crimes['ZIPcode'] == zip_codes_df['ZIP Code'])
