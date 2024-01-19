@@ -7,4 +7,4 @@
 |               Black|  349|
 +--------------------+-----+
 
-Execution time with 4 executor(s): 10.96 seconds
+Execution time with 4 executor(s): 9.79 seconds

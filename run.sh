@@ -2,12 +2,12 @@
 start-dfs.sh
 start-yarn.sh
 $SPARK_HOME/sbin/start-history-server.sh
-hdfs dfsadmin -safemode leave
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
 venv-pack -o venv.tar.gz
 export PYSPARK_PYTHON=./venv/bin/python
+hdfs dfsadmin -safemode leave
 spark-submit --archives venv.tar.gz#venv req_1.py
 spark-submit --archives venv.tar.gz#venv query_1.py
 spark-submit --archives venv.tar.gz#venv query_1_sql.py
