@@ -29,8 +29,5 @@ spark-submit --archives venv.tar.gz#venv query_4b_joins.py merge
 spark-submit --archives venv.tar.gz#venv query_4b_joins.py shuffle_hash
 spark-submit --archives venv.tar.gz#venv query_4b_joins.py shuffle_replicate_nl
 deactivate
-stop-dfs.sh
-stop-yarn.sh
-$SPARK_HOME/sbin/stop-history-server.sh
 rm -rf venv
 rm venv.tar.gz

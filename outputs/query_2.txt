@@ -7,4 +7,4 @@
 |       Πρωί|113661|
 +-----------+------+
 
-Execution time with 4 executor(s): 13.52 seconds
+Execution time with 4 executor(s): 13.59 seconds

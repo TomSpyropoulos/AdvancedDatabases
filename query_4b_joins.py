@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import udf, min
 from pyspark.sql.types import DoubleType
+from pyspark.sql.functions import year, avg, to_date, unix_timestamp, from_unixtime, count, round, udf, min, desc
 from geopy.distance import geodesic
 import sys
 
@@ -14,12 +14,17 @@ stations = spark.read.csv('/datasets/LAPD_Police_Stations.csv', header=True, inf
 crimes = spark.read.csv('/datasets/Crime_Data_from_2010_to_2019.csv', inferSchema=True, header=True)
 temp = spark.read.csv('/datasets/Crime_Data_from_2020_to_Present.csv', inferSchema=True, header=True)
 crimes = crimes.union(temp)
+crimes = crimes.withColumn('Date', to_date(from_unixtime(unix_timestamp(crimes['Date Rptd'], 'M/d/yyyy hh:mm:ss a'))))
+crimes = crimes.withColumn('year', year(crimes['Date']))
+crimes = crimes.filter(crimes['year'].isNotNull())
+crimes = crimes.filter((crimes['LAT'] != 0) & (crimes['LON'] != 0))
+crimes = crimes.filter(crimes['Weapon Used Cd'].startswith('1'))
+
 
 def calculate_distance(lat1, lon1, lat2, lon2):
     return geodesic((lat1, lon1), (lat2, lon2)).km
 
 udf_calculate_distance = udf(calculate_distance, DoubleType())
-
 
 cross = crimes.crossJoin(stations)
 cross = cross.withColumn('distance', udf_calculate_distance(cross['LAT'], cross['LON'], cross['Y'], cross['X']))
